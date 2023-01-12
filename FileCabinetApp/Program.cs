@@ -3,7 +3,7 @@ using FileCabinetApp;
 using FileCabnet.Models;
 
 var repo = new DocumentRepository();
-repo.Write(new List<Document>
+repo.Write(new List<BaseDocument>
 {
     TestData.Patent,
     TestData.Book,

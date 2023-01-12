@@ -2,7 +2,7 @@
 
 namespace FileCabnet.Models
 {
-    public class Magazine : Document
+    public class Magazine : BaseDocument
     {
         public string Publisher { get; set; }
 

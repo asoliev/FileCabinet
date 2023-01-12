@@ -2,7 +2,7 @@
 
 namespace FileCabnet.Models
 {
-    public class Document
+    public class BaseDocument
     {
         public int Id { get; set; }
 

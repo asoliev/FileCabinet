@@ -2,24 +2,24 @@
 
 namespace FileCabnet.Models
 {
-    public class Patent : Document
+    public abstract class BookBase : BaseDocument
     {
+        public string ISBN { get; set; }
+
         public string[] Authors { get; set; }
 
-        public DateTime ExpirationDate { get; set; }
-
-        public Guid UniqueId { get; set; }
+        public int NumberOfPages { get; set; }
 
         public override string ToString()
         {
             var sb = new StringBuilder();
+            sb.AppendLine($"ISBN - {ISBN}");
             sb.AppendLine("Authors: ");
             foreach (var author in Authors)
             {
                 sb.AppendLine($"\t{author}");
             }
-            sb.AppendLine($"ExpirationDate - {ExpirationDate}");
-            sb.AppendLine($"UniqueId - {UniqueId}");
+            sb.AppendLine($"NumberOfPages - {NumberOfPages}");
             return base.ToString() + sb;
         }
     }

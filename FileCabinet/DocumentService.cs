@@ -3,9 +3,9 @@ using System.Text.Json;
 
 namespace FileCabinet
 {
-    public class DocumentRepository
+    public class DocumentService
     {
-        public void Write(IEnumerable<Document> documents)
+        public void Write(IEnumerable<BaseDocument> documents)
         {
             foreach (var document in documents)
             {
@@ -15,7 +15,7 @@ namespace FileCabinet
             }
         }
 
-        public IEnumerable<Document> Read()
+        public IEnumerable<BaseDocument> Read()
         {
             var docTypes = GetDocumentTypes().ToList();
             var directory = new DirectoryInfo(Directory.GetCurrentDirectory());
@@ -23,17 +23,17 @@ namespace FileCabinet
                 .GetFiles("*.json")
                 .Where(file => docTypes.Any(type => file.Name.Contains(type.Name, StringComparison.OrdinalIgnoreCase)))
                 .ToList();
-            var documents = new List<Document>();
+            var documents = new List<BaseDocument>();
             foreach (var file in files)
             {
                 var jsonString = File.ReadAllText(file.FullName);
                 var type = docTypes.First(t => file.Name.Split('_')[0].Equals(t.Name));
                 var document = JsonSerializer.Deserialize(jsonString, type);
-                documents.Add((Document)document);
+                documents.Add((BaseDocument)document);
             }
             return documents;
         }
-        public Document GetById(int id)
+        public BaseDocument GetById(int id)
         {
             return Read().Single(x => x.Id == id);
         }
@@ -41,7 +41,7 @@ namespace FileCabinet
         public static IEnumerable<Type> GetDocumentTypes()
         {
             return AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(x => x.GetTypes()).Where(t => t.BaseType == typeof(Document));
+                .SelectMany(x => x.GetTypes()).Where(t => t.BaseType == typeof(BaseDocument));
         }
     }
 }
